@@ -1,0 +1,78 @@
+<%- include('include/_header_main') %> 
+
+<header id="header">
+    <nav>
+        <div class="container">
+            <div class="text-container text-center">
+                <span class="nav-brand text-dark">User Management System</span>
+            </div>
+        </div>   
+    </nav>
+    <div id="user-actions" class="text-right">
+        <!-- This will be populated based on login status -->
+    </div>
+</header>
+
+<main id="site-main">
+    <div class="container">
+        <div id="auth-buttons" class="box-nav d-flex justify-between">
+            <!-- The buttons will be dynamically injected here based on login status -->
+        </div>
+    </div>
+</main>
+
+<%- include('include/_footer') %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = sessionStorage.getItem('token');
+        const authButtons = document.getElementById('auth-buttons');
+        const userActions = document.getElementById('user-actions');
+
+        if (token) {
+            // User is logged in, show profile buttons
+            authButtons.innerHTML = `
+                <div class="action-box">
+                    <a href="/get_profile" class="border-shadow">
+                        <span class="text-gradient">View Profile<i class="fa-solid fa-user"></i></span>
+                    </a>
+                </div>
+                <div class="action-box">
+                    <a href="/update_profile" class="border-shadow">
+                        <span class="text-gradient">Update Profile<i class="fa fa-edit"></i></span>
+                    </a>
+                </div>
+            `;
+            // Add logout button
+            userActions.innerHTML = `
+                <a href="#" class="logout-link" id="logout-btn">Logout</a> <!-- Logout link -->
+            `;
+            // Logout button click event
+            document.getElementById('logout-btn').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default anchor behavior
+                logout(); // Call the logout function
+            });
+        } else {
+            // User is not logged in, show login and new user buttons
+            authButtons.innerHTML = `
+                <div class="action-box">
+                    <a href="/add-user" class="border-shadow">
+                        <span class="text-gradient">New User<i class="fa-solid fa-user"></i></span>
+                    </a>
+                </div>
+                <div class="action-box">
+                    <a href="/login" class="border-shadow">
+                        <span class="text-gradient">User Login<i class="fa fa-sign-in"></i></span>
+                    </a>
+                </div>
+            `;
+        }
+    });
+    // Function to handle logout
+    function logout() {
+        sessionStorage.removeItem('token'); // Clear the token
+        alert("Logout Successful! Redirecting to Main Page...")
+        window.location.reload(); // Reload the page to update the UI
+    }
+</script>
+

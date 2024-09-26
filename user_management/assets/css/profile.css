@@ -1,0 +1,69 @@
+/* General container styling */
+.container {
+    max-width: 800px; /* Max width for larger screens */
+    margin: 20px auto; /* Center the container */
+    padding: 20px; /* Add some padding */
+    background-color: #f8f9fa; /* Light background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Title styling */
+.form-title {
+    margin-bottom: 20px;
+}
+
+.form-title h2 {
+    font-size: 2rem; /* Larger title font */
+    color: #343a40; /* Dark color for the title */
+}
+
+.form-title span {
+    font-size: 1rem; /* Smaller subtitle font */
+    color: #6c757d; /* Muted color for the subtitle */
+}
+
+/* Profile info styling */
+.profile-info {
+    margin-bottom: 20px;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px; /* Spacing between form groups */
+}
+
+.form-group label {
+    display: block; /* Block display for labels */
+    margin-bottom: 5px; /* Spacing below labels */
+    font-weight: bold; /* Bold labels */
+    color: #495057; /* Darker color for labels */
+}
+
+.form-group p {
+    padding: 10px; /* Padding around text */
+    background-color: #ffffff; /* White background for text areas */
+    border: 1px solid #ced4da; /* Light border for input areas */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.btn{
+    width: 100%;
+    padding: .9em 1em;
+    background-color: #5e4b8d;
+    border: none;
+    font-family: 'PT Sans',sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: .2em;
+    margin: .5em 0;
+    color: white;
+  }
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.text-dark{
+    color:black;
+}

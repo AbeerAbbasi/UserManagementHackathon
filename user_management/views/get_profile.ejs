@@ -1,0 +1,59 @@
+<%- include('include/_header') %>
+
+<main id="site-main">
+    <div class="container">
+        <div class="box-nav d-flex justify-between">
+            <div class="filter">
+                <a href="/"><i class="fas fa-angle-double-left"></i>Return to HomePage</a>
+            </div>
+        </div>
+        <div class="form-title text-center">
+            <h2 class="text-dark">User Profile</h2>
+            <span class="text-light">Here are your details:</span>
+        </div>
+        
+        <div class="profile-info">
+            <div class="form-group">
+                <label class="text-light">Name:</label>
+                <p id="user-name" class="text-dark"></p>
+            </div>
+            <div class="form-group">
+                <label class="text-light">Email:</label>
+                <p id="user-email" class="text-dark"></p>
+            </div>
+            <div class="form-group">
+                <label class="text-light">Password:</label>
+                <p id="user-password" class="text-dark">******</p> <!-- Placeholder for security -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('include/_footer') %>
+
+<script>
+    async function fetchProfile() {
+        const token = sessionStorage.getItem('token'); // Get the JWT token from local storage
+        const response = await fetch('/api/users/profile', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Profile Data:', data); // Log the received profile data
+            document.getElementById('user-name').innerText = data.name; // Corrected to access name directly
+            document.getElementById('user-email').innerText = data.email;
+            // Show password placeholder
+            document.getElementById('user-password').innerText = '******'; 
+        } else {
+            alert('Failed to fetch profile: ' + (await response.json()).message);
+        }
+    }
+
+    fetchProfile(); // Call the function to fetch user profile
+
+</script>
+

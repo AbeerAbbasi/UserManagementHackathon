@@ -1,0 +1,74 @@
+<%-include('include/_header')%>
+
+<main id="site-main">
+    <div class="container">
+        <div class="box-nav d-flex justify-between">
+            <div class="filter">
+                <a href="/"><i class="fas fa-angle-double-left"></i>Return to Homepage</a>
+            </div>
+        </div>
+        <div class="form-title text-center" >
+            <h2 class="text-dark">New User</h2>
+            <span class="text-light">Use the below form to create a new account</span>
+        </div>
+        <%-include('include/_form')%>
+    </div>
+</main>
+
+<%-include('include/_footer')%>
+
+<script>
+    // Add event listener to the form
+    document.getElementById('add_user').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(this); // Get form data
+        const data = {};
+
+        // Convert FormData to a regular object
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        // Validate email format using a regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(data.email)) {
+            alert("Error: Invalid email format");
+            return; // Stop form submission if the email format is invalid
+        }
+        
+        // Validate name to start with a letter and allow valid characters
+        const nameRegex = /^[A-Za-z][A-Za-z\s\-\'\.]*$/; // First character must be a letter
+        if (!data.name || !nameRegex.test(data.name)) {
+            alert("Error: Name must start with a letter and be a valid string");
+            return; // Stop form submission if the name is invalid
+        }
+
+        try {
+            const response = await fetch('/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // Send the form data as JSON
+            });
+
+            const result = await response.json();
+             // Check the status code for success or error handling
+             if (response.status === 201) {
+                // Success response: User added successfully
+                alert(result.message); // Show success message from server
+                window.location.href = '/'; // Redirect to homepage or another page if necessary
+            } else if (response.status === 400) {
+                // Error response: Email already exists or validation error
+                alert("Error: " + result.message); // Show error message from server
+            } else {
+                // Handle other potential error statuses (like 500)
+                alert("Error: " + result.message); // Show the returned error message
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert("An error occurred while trying to add the user."); // General error message
+        }
+    });
+</script>

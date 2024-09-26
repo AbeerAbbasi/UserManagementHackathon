@@ -1,0 +1,61 @@
+<%- include('include/_header') %>
+
+<main id="site-main">
+    <div class="container">
+        <div class="box-nav d-flex justify-between">
+            <div class="filter">
+                <a href="/"><i class="fas fa-angle-double-left"></i>Return to HomePage</a>
+            </div>
+        </div>
+        <div class="form-title text-center">
+            <h2 class="text-dark">Login</h2>
+            <span class="text-light">Enter your login information</span>
+        </div>
+        
+        <form action="/api/users/login" method="post" id="login-form">
+            <div class="form-group">
+                <label for="email" class="text-light">Email</label>
+                <input type="email" name="email" placeholder="Enter Your Email Here" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="text-light">Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">Login</button> 
+            </div>
+        </form>
+    </div>
+</main>
+
+<%- include('include/_footer') %>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+
+        const email = document.querySelector('input[name="email"]').value.toLowerCase();
+        const password = document.querySelector('input[name="password"]').value;
+
+        try {
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                // Store the JWT token in local storage
+                sessionStorage.setItem('token', data.token);
+                alert("Login successful!");
+                // Redirect to the index page
+                window.location.href = '/';
+            } else {
+                alert(data.message); // Show error message
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>
